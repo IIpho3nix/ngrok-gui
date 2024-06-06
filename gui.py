@@ -89,6 +89,7 @@ def validate_port_input(action, value_if_allowed):
 
 root = tk.Tk()
 root.title("Ngrok GUI")
+root.iconbitmap("icon.ico")
 root.geometry("200x125")
 root.resizable(False, False)
 
