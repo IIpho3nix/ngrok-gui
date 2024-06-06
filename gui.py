@@ -77,6 +77,15 @@ def lock_fields():
 def unlock_fields():
     port_entry.configure(state='normal')
     type_combobox.configure(state='readonly')
+    
+def validate_port_input(action, value_if_allowed):
+    if action == "1":  # insert
+        if not value_if_allowed.isdigit():
+            return False
+        if int(value_if_allowed) > 65535:
+            return False
+    return True
+
 
 root = tk.Tk()
 root.title("Ngrok GUI")
@@ -87,10 +96,12 @@ style = ttk.Style()
 style.configure("TButton", padding=(10, 5))
 style.configure("TLabel", padding=(0, 5))
 
+port_validate_cmd = root.register(validate_port_input)
+
 port_label = ttk.Label(root, text="Port:")
 port_label.grid(row=0, column=0, padx=5, pady=5, sticky="w")
 
-port_entry = ttk.Entry(root)
+port_entry = ttk.Entry(root, validate="key", validatecommand=(port_validate_cmd, "%d", "%P"))
 port_entry.grid(row=0, column=1, padx=5, pady=5, sticky="we")
 
 type_label = ttk.Label(root, text="Type:")
