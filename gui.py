@@ -107,7 +107,7 @@ port_entry.grid(row=0, column=1, padx=5, pady=5, sticky="we")
 type_label = ttk.Label(root, text="Type:")
 type_label.grid(row=1, column=0, padx=5, pady=5, sticky="w")
 
-type_combobox = ttk.Combobox(root, values=["HTTP", "TCP", "UDP"], state="readonly")
+type_combobox = ttk.Combobox(root, values=["HTTP", "TCP"], state="readonly")
 type_combobox.grid(row=1, column=1, padx=5, pady=5, sticky="we")
 type_combobox.current(0)
 
