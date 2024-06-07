@@ -82,7 +82,7 @@ def unlock_fields():
     type_combobox.configure(state='readonly')
     
 def validate_port_input(action, value_if_allowed):
-    if action == "1":  # insert
+    if action == "1":
         if not value_if_allowed.isdigit():
             return False
         if int(value_if_allowed) > 65535:
