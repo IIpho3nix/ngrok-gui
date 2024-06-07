@@ -13,7 +13,7 @@ def start_stop_button_click():
         type = type_combobox.get()
         if port and type:
             ngrok_process = start_ngrok(port, type.lower())
-            ngrok_url = get_ngrok_url()
+            ngrok_url = get_ngrok_url(port)
             if ngrok_url:
                 copy(ngrok_url)
                 print("Copied ngrok url to clipboard: " + ngrok_url)
@@ -53,13 +53,16 @@ def stop_ngrok():
         start_stop_button["text"] = "Start"
         start_stop_button["command"] = start_stop_button_click
 
-def get_ngrok_url():
+def get_ngrok_url(port):
     with urllib.request.urlopen("http://localhost:4040/api/tunnels") as response:
         data = response.read()
     datajson = json.loads(data)
-    ngrok_urls = [tunnel['public_url'] for tunnel in datajson['tunnels']]
-    ngrok_urls = [url.replace("tcp://", "") for url in ngrok_urls]
-    return ngrok_urls[0] if ngrok_urls else None
+    for tunnel in datajson['tunnels']:
+        public_url = tunnel['public_url']
+        port_info = tunnel['config']['addr']
+        if port_info.endswith(str(port)):
+            return public_url.replace("tcp://", "")
+    return None
 
 def copy(txt):
     if platform.system() == "Windows":
